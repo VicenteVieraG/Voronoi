@@ -1,6 +1,6 @@
 # Main CMake file
 cmake_minimum_required(VERSION 3.31.6)
-project(MY_PROJECT VERSION 0.0.1 LANGUAGES C CXX)
+project(Voronoi VERSION 0.2.0 LANGUAGES C CXX)
 
 # Configure build options
 set(CMAKE_CXX_STANDARD 23)
