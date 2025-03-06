@@ -1,6 +1,7 @@
 // This stops GLFW from including system's OpenGL headers (<GL/gl.h>)
 // which would conflict with glbinding
 #define GLFW_INCLUDE_NONE
+#define STB_IMAGE_IMPLEMENTATION // Define before including stb_image.h
 
 #include <iostream>
 #include <config.hpp>
@@ -12,6 +13,7 @@
 #include <glbinding-aux/ContextInfo.h>
 #include <glbinding-aux/types_to_string.h>
 #include <GLFW/glfw3.h> // GLFW include must be after glbinding
+#include <stb_image.h>
 
 int main(void){
     std::cout<<project_name<<std::endl;
@@ -37,12 +39,20 @@ int main(void){
     const unsigned int WIDTH = 640;
     const unsigned int HEIGHT = 480;
 
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Hola Crayola", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Voronoi Diagram", NULL, NULL);
     if(!window){
         std::cerr<<"Failed to create window"<<std::endl;
         glfwTerminate();
         return -1;
     }
+
+    // Set window icon
+    int iconWidth, iconHeight, channels;
+    unsigned char* data = stbi_load("assets/voronoi_icon.png", &iconWidth, &iconHeight, &channels, 4);
+    const GLFWimage icon = { iconWidth, iconHeight, data };
+
+    glfwSetWindowIcon(window, 1, &icon);
+    stbi_image_free(data);
 
     // Make this window the current OpenGL context
     glfwMakeContextCurrent(window);
