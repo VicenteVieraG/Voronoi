@@ -1,4 +1,4 @@
-message(STATUS "-- Adding STB Image library")
+message(STATUS "Adding STB Image library")
 
 set(STB stb)
 set(STB_SOURCE ${CMAKE_SOURCE_DIR}/external/stb/.)
