@@ -17,6 +17,8 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
+#include <appContext.hpp>
+
 int main(void){
     std::cout<<project_name<<std::endl;
     std::cout<<project_version<<std::endl;
@@ -31,6 +33,7 @@ int main(void){
 
     if(!glfwInit()){
         std::cerr<<"Failed to initialize GLFW"<<std::endl;
+        std::cerr<<"Error Code: "<<glfwGetError(nullptr)<<std::endl;
         return -1;
     }
 
@@ -52,11 +55,17 @@ int main(void){
 
     // Set window icon
     int iconWidth, iconHeight, channels;
-    unsigned char* data = stbi_load("assets/voronoi_icon.png", &iconWidth, &iconHeight, &channels, 4);
-    const GLFWimage icon = { iconWidth, iconHeight, data };
+    unsigned char* imageData = stbi_load("assets/voronoi_icon.png", &iconWidth, &iconHeight, &channels, 4);
+    if(!imageData){
+        std::cerr<<"Failed to load icon image"<<std::endl;
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return -1;
+    }
+    const GLFWimage icon = { iconWidth, iconHeight, imageData };
 
     glfwSetWindowIcon(window, 1, &icon);
-    stbi_image_free(data);
+    stbi_image_free(imageData);
 
     glfwMakeContextCurrent(window); // Make this window the current OpenGL context
     glfwSwapInterval(1); // Enable VSync

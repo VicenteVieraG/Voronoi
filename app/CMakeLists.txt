@@ -6,6 +6,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     PRIVATE glbinding::glbinding-aux
     PRIVATE stb
     PRIVATE imgui
+    PRIVATE appContext
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME}

@@ -1,0 +1,1 @@
+#define voidMeme 0x00000001
