@@ -15,6 +15,7 @@
 #include <imgui_impl_opengl3.h>
 
 #include <appContext.hpp>
+#include <sidebar.hpp>
 
 int main(void){
     std::cout<<project_name<<std::endl;
@@ -26,16 +27,23 @@ int main(void){
     App::Context appContext;
     const unsigned int width = 640;
     const unsigned int height = 480;
+    const std::string title = "Voronoi Diagram";
 
-    if(not App::init(appContext, width, height, "Voronoi Diagram")){
-        const char** GLFWerror;
+    if(not App::init(appContext, width, height, title)){
         std::cerr<<"Failed to initialize application"<<std::endl;
-        std::cerr<<"GLFW Error Code: "<<glfwGetError(GLFWerror)<<std::endl;
         return -1;
     }
     auto& [window, windowWidth, windowHeight] = appContext;
 
     /* ~~Main loop~~ */
+    // ImGui Control pannel window config
+    const std::string sidebarTitle = "Control panel";
+    const float sidebarWidth = 250.0f;
+    const float sidebarHeight = static_cast<float>(windowHeight);
+    const ImGuiWindowFlags sidebarFlags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove;
+    
     do{
         glfwPollEvents();
 
@@ -43,8 +51,12 @@ int main(void){
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("Hola ImGUI");
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(sidebarWidth, sidebarHeight));
+
+        ImGui::Begin(sidebarTitle.c_str(), nullptr, sidebarFlags);
         ImGui::Text("Hola Crayola");
+        ImGui::Separator();
         ImGui::End();
 
         gl::glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
