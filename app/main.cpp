@@ -25,25 +25,23 @@ int main(void){
 
     /* ~~Inicialization~~ */
     App::Context appContext;
-    const unsigned int width = 640;
-    const unsigned int height = 480;
+    const unsigned int initialWidth = 640;
+    const unsigned int initialHeight = 480;
     const std::string title = "Voronoi Diagram";
 
-    if(not App::init(appContext, width, height, title)){
+    if(not App::init(appContext, initialWidth, initialHeight, title)){
         std::cerr<<"Failed to initialize application"<<std::endl;
         return -1;
     }
-    auto& [window, windowWidth, windowHeight] = appContext;
+    auto& [window, initialWindowWidth, initialWindowHeight] = appContext;
+
+
+    const std::string sidebarTitle = "Contro Panel";
+    GUI::Sidebar sidebar(sidebarTitle);
+
+    int currentWindowWidth, currentWindowHeight;
 
     /* ~~Main loop~~ */
-    // ImGui Control pannel window config
-    const std::string sidebarTitle = "Control panel";
-    const float sidebarWidth = 250.0f;
-    const float sidebarHeight = static_cast<float>(windowHeight);
-    const ImGuiWindowFlags sidebarFlags =
-        ImGuiWindowFlags_NoResize |
-        ImGuiWindowFlags_NoMove;
-    
     do{
         glfwPollEvents();
 
@@ -51,18 +49,12 @@ int main(void){
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(sidebarWidth, sidebarHeight));
-
-        ImGui::Begin(sidebarTitle.c_str(), nullptr, sidebarFlags);
-        ImGui::Text("Hola Crayola");
-        ImGui::Separator();
-        ImGui::End();
-
-        gl::glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        gl::glClear(gl::GL_COLOR_BUFFER_BIT);
+        glfwGetFramebufferSize(window, &currentWindowWidth, &currentWindowHeight);
+        sidebar.render(currentWindowWidth, currentWindowHeight);
 
         ImGui::Render();
+        gl::glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        gl::glClear(gl::GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
