@@ -3,14 +3,11 @@
 #define STB_IMAGE_IMPLEMENTATION // Define before including stb_image.h
 
 #include <iostream>
+#include <string>
 #include <config.hpp>
 
 #include <glbinding/gl/gl.h>
 #include <glbinding/glbinding.h>
-#include <glbinding/Version.h>
-#include <glbinding-aux/Meta.h>
-#include <glbinding-aux/ContextInfo.h>
-#include <glbinding-aux/types_to_string.h>
 #include <GLFW/glfw3.h> // GLFW include must be after glbinding
 #include <stb_image.h>
 #include <imgui.h>
@@ -25,77 +22,18 @@ int main(void){
     std::cout<<"GLFW version: "<<glfwGetVersionString()<<std::endl;
     std::cout<<"ImGui version: "<<ImGui::GetVersion()<<std::endl;
 
-    /* ~~Setting~~ */
-    glfwSetErrorCallback([](int error, const char* description) -> void {
-        std::cerr<<"GLFW Error: "<<description<<std::endl;
-        return;
-    });
+    /* ~~Inicialization~~ */
+    App::Context appContext;
+    const unsigned int width = 640;
+    const unsigned int height = 480;
 
-    if(!glfwInit()){
-        std::cerr<<"Failed to initialize GLFW"<<std::endl;
-        std::cerr<<"Error Code: "<<glfwGetError(nullptr)<<std::endl;
+    if(not App::init(appContext, width, height, "Voronoi Diagram")){
+        const char** GLFWerror;
+        std::cerr<<"Failed to initialize application"<<std::endl;
+        std::cerr<<"GLFW Error Code: "<<glfwGetError(GLFWerror)<<std::endl;
         return -1;
     }
-
-    /* ~~Create window~~ */
-    // Set OpenGL version and profile mode
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    const unsigned int WIDTH = 640;
-    const unsigned int HEIGHT = 480;
-
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Voronoi Diagram", NULL, NULL);
-    if(!window){
-        std::cerr<<"Failed to create window"<<std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
-    // Set window icon
-    int iconWidth, iconHeight, channels;
-    unsigned char* imageData = stbi_load("assets/voronoi_icon.png", &iconWidth, &iconHeight, &channels, 4);
-    if(!imageData){
-        std::cerr<<"Failed to load icon image"<<std::endl;
-        glfwDestroyWindow(window);
-        glfwTerminate();
-        return -1;
-    }
-    const GLFWimage icon = { iconWidth, iconHeight, imageData };
-
-    glfwSetWindowIcon(window, 1, &icon);
-    stbi_image_free(imageData);
-
-    glfwMakeContextCurrent(window); // Make this window the current OpenGL context
-    glfwSwapInterval(1); // Enable VSync
-
-    // Window's resize callback
-    glfwSetFramebufferSizeCallback(window,
-        [](GLFWwindow* window, int width, int height) -> void {
-            gl::glViewport(0, 0, width, height);
-            return;
-        }
-    );
-
-    /* ~~glbinding inicialization~~ */
-    glbinding::initialize(glfwGetProcAddress);
-
-    // Print OpenGL information
-    std::cout<<"OpenGL Version: "<<glbinding::aux::ContextInfo::version()<<std::endl;
-    std::cout<<"OpenGL Vendor: "<<glbinding::aux::ContextInfo::vendor()<<std::endl;
-    std::cout<<"OpenGL Renderer: "<<glbinding::aux::ContextInfo::renderer()<<std::endl;
-
-    /* ~~Initialize ImGui~~ */
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    [[maybe_unused]] ImGuiIO& io = ImGui::GetIO();
-
-    // Bind ImGui to GLFW and set OpenGL shader version
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 460");
-
-    ImGui::StyleColorsDark();
+    auto& [window, windowWidth, windowHeight] = appContext;
 
     /* ~~Main loop~~ */
     do{
@@ -118,13 +56,7 @@ int main(void){
         glfwSwapBuffers(window);
     }while(!glfwWindowShouldClose(window));
 
-    // Terminate Libraries
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
+    App::terminate(appContext);
 
     return 0;
 }
