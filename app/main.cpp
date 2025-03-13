@@ -33,11 +33,13 @@ int main(void){
         std::cerr<<"Failed to initialize application"<<std::endl;
         return -1;
     }
-    auto& [window, initialWindowWidth, initialWindowHeight] = appContext;
-
+    auto& [
+        window, initialWindowWidth, initialWindowHeight,
+        arrowCursor, handCursor
+    ] = appContext;
 
     const std::string sidebarTitle = "Contro Panel";
-    GUI::Sidebar sidebar(sidebarTitle);
+    GUI::Sidebar sidebar(sidebarTitle, &appContext);
 
     int currentWindowWidth, currentWindowHeight;
 

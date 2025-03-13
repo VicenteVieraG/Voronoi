@@ -32,7 +32,7 @@ namespace App{
         glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        auto& [window, windowWidth, windowHeight] = appContext;
+        auto& [window, windowWidth, windowHeight, arrowCursor, handCursor] = appContext;
         if(window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr); !window){
             std::cerr<<"Failed to create window"<<std::endl;
             glfwTerminate();
@@ -65,6 +65,10 @@ namespace App{
                 return;
             }
         );
+
+        /* ~~Set GLFW cursors~~ */
+        arrowCursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+        handCursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
 
         /* ~~glbinding inicialization~~ */
         glbinding::initialize(glfwGetProcAddress);

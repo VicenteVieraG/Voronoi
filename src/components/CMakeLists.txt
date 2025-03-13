@@ -3,4 +3,5 @@ target_link_libraries(components
     PRIVATE glfw
     PRIVATE glbinding::glbinding
     PRIVATE imgui
+    PRIVATE appContext
 )

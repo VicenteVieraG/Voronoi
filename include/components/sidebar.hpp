@@ -1,6 +1,10 @@
 #pragma once
+
 #include <string>
 #include <imgui.h>
+#include <glfw/glfw3.h>
+
+#include <appContext.hpp>
 
 namespace GUI{
     class Sidebar{
@@ -10,20 +14,26 @@ namespace GUI{
             unsigned int voronoiPoints;
             bool runningState;
 
+            App::Context* appContext;
+            GLFWcursor* currentCursor;
+
             const ImGuiWindowFlags sidebarFlags =
                 ImGuiWindowFlags_NoResize |
                 ImGuiWindowFlags_NoMove   |
                 ImGuiWindowFlags_NoSavedSettings;
 
-            void drawControls();
             void drawPerformanceMetrics() const;
+            void drawControls();
         public:
             Sidebar() = default;
-            Sidebar(const std::string title):
+            Sidebar(const std::string title, App::Context* context):
                 sidebarTitle(title),
                 voronoiPoints(0U),
-                runningState(false)
+                runningState(false),
+                appContext(context),
+                currentCursor(nullptr)
             {};
+            ~Sidebar() = default;
 
             void render(const int windowWidth, const int windowHeight);
 
