@@ -16,6 +16,7 @@ namespace GUI{
 
             App::Context* appContext;
             GLFWcursor* currentCursor;
+            GLFWcursor* lastCursor;
 
             const ImGuiWindowFlags sidebarFlags =
                 ImGuiWindowFlags_NoResize |
@@ -28,10 +29,12 @@ namespace GUI{
             Sidebar() = default;
             Sidebar(const std::string title, App::Context* context):
                 sidebarTitle(title),
+                sidebarWidth(0.25f),
                 voronoiPoints(0U),
                 runningState(false),
                 appContext(context),
-                currentCursor(nullptr)
+                currentCursor(nullptr),
+                lastCursor(nullptr)
             {};
             ~Sidebar() = default;
 
@@ -41,6 +44,6 @@ namespace GUI{
             void setRunning(const bool state);
 
             unsigned int getVoronoiPoints() const;
-            void setVoronoiPoints();
+            void increaseVoronoiPoints();
     };
 };

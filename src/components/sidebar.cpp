@@ -10,7 +10,7 @@ namespace GUI{
         /* ~~Sidebar settings~~ */
         ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(
-            static_cast<float>(windowWidth) * 0.25f,
+            static_cast<float>(windowWidth) * this->sidebarWidth,
             static_cast<float>(windowHeight)
         ));
 
@@ -66,7 +66,7 @@ namespace GUI{
     unsigned int Sidebar::getVoronoiPoints() const {
         return this->voronoiPoints;
     }
-    void Sidebar::setVoronoiPoints(){
+    void Sidebar::increaseVoronoiPoints(){
         this->voronoiPoints++;
         return;
     }

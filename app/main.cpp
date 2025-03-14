@@ -38,7 +38,7 @@ int main(void){
         arrowCursor, handCursor
     ] = appContext;
 
-    const std::string sidebarTitle = "Contro Panel";
+    const std::string sidebarTitle = "Control Panel";
     GUI::Sidebar sidebar(sidebarTitle, &appContext);
 
     int currentWindowWidth, currentWindowHeight;
