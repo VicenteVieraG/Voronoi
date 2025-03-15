@@ -16,6 +16,9 @@
 
 #include <appContext.hpp>
 #include <sidebar.hpp>
+#include <graphics.hpp>
+
+int test = OGL::xd;
 
 int main(void){
     std::cout<<project_name<<std::endl;

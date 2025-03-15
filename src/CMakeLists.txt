@@ -1,2 +1,3 @@
 add_subdirectory(appContext)
 add_subdirectory(components)
+add_subdirectory(graphics)

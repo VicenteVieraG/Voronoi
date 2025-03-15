@@ -8,6 +8,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     PRIVATE imgui
     PRIVATE appContext
     PRIVATE components
+    PRIVATE graphics
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME}
