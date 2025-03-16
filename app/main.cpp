@@ -18,13 +18,13 @@
 #include <sidebar.hpp>
 #include <graphics.hpp>
 
-int test = OGL::xd;
-
 int main(void){
     std::cout<<project_name<<std::endl;
     std::cout<<project_version<<std::endl;
     std::cout<<"GLFW version: "<<glfwGetVersionString()<<std::endl;
     std::cout<<"ImGui version: "<<ImGui::GetVersion()<<std::endl;
+
+    Graphics::Global();
 
     /* ~~Inicialization~~ */
     App::Context appContext;
