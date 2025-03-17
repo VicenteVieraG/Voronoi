@@ -24,8 +24,6 @@ int main(void){
     std::cout<<"GLFW version: "<<glfwGetVersionString()<<std::endl;
     std::cout<<"ImGui version: "<<ImGui::GetVersion()<<std::endl;
 
-    Graphics::Global();
-
     /* ~~Inicialization~~ */
     App::Context appContext;
     const unsigned int initialWidth = 640;
@@ -45,6 +43,9 @@ int main(void){
     GUI::Sidebar sidebar(sidebarTitle, &appContext);
 
     int currentWindowWidth, currentWindowHeight;
+
+    /* ~~OpenGL global configuration~~ */
+    Graphics::Global global;
 
     /* ~~Main loop~~ */
     do{

@@ -2,22 +2,25 @@
 
 #include <vector>
 #include <string>
+#include <cstddef>
 
 #include <glbinding/gl/gl.h>
 #include <glbinding/glbinding.h>
 
 namespace Graphics{
-    struct Vertex{
+    struct Site{
         float x;
         float y;
     };
+    using Point = Site;
+    using Vertex = Site;
 
     class Global{
         private:
             gl::GLuint vao;
             gl::GLuint vbo;
             gl::GLuint shaderProgram;
-            std::vector<Vertex> vertices;
+            std::vector<Site> sites;
 
             void initBuffers();
             void updateBufferData();
@@ -28,5 +31,11 @@ namespace Graphics{
         public:
             Global();
             ~Global();
+
+            void addSite(const Site& site);
+            void clearSites();
+            const std::size_t countSites() const;
+
+            void draw() const;
     };
 };
