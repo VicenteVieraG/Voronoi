@@ -56,7 +56,7 @@ namespace Graphics{
             {"./shaders/vertexShader.glsl", gl::GL_VERTEX_SHADER},
             {"./shaders/fragmentShader.glsl", gl::GL_FRAGMENT_SHADER}
         }};
-        std::vector<gl::GLuint> compiledShaders;
+        std::vector<const gl::GLuint> compiledShaders;
 
         for(const auto& [path, shaderType] : shaderPaths){
             const std::string shaderSrc = this->loadShaderFile(path);
@@ -79,7 +79,7 @@ namespace Graphics{
         for(const auto& shader : compiledShaders) gl::glDeleteShader(shader);
     }
 
-    gl::GLuint Global::compileShader(const gl::GLenum type, const std::string& source){
+    const gl::GLuint Global::compileShader(const gl::GLenum type, const std::string& source){
         gl::GLuint shader = gl::glCreateShader(type);
         const gl::GLchar* src = source.c_str();
         gl::glShaderSource(shader, 1, &src, nullptr);
@@ -125,9 +125,9 @@ namespace Graphics{
 
     void Global::draw() const {
         gl::glUseProgram(this->shaderProgram);
-        gl::glBindVertexArray(this->vao);
-        gl::glDrawArrays(gl::GL_POINTS, 0, static_cast<gl::GLsizei>(this->countSites()));
-        gl::glBindVertexArray(0);
+            gl::glBindVertexArray(this->vao);
+                gl::glDrawArrays(gl::GL_POINTS, 0, static_cast<gl::GLsizei>(this->countSites()));
+            gl::glBindVertexArray(0);
         gl::glUseProgram(0);
         return;
     }

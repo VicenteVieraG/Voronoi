@@ -26,7 +26,7 @@ namespace Graphics{
             void updateBufferData();
 
             void createShader();
-            gl::GLuint compileShader(const gl::GLenum type, const std::string& source);
+            const gl::GLuint compileShader(const gl::GLenum type, const std::string& source);
             const std::string loadShaderFile(const std::string& filePath);
         public:
             Global();

@@ -54,7 +54,6 @@ namespace GUI{
     }
 
     /* ~~Getters and Setters~~ */
-
     bool Sidebar::isRunning() const {
         return this->runningState;
     }
